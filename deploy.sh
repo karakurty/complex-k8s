@@ -5,7 +5,7 @@ docker build -t karakurty/multi-docker-client:latest -t karakurty/multi-docker-c
 docker build -t karakurty/multi-docker-worker:latest -t karakurty/multi-docker-worker:$GIT_SHA -f ./worker/Dockerfile ./worker
 docker build -t karakurty/multi-docker-server:latest -t karakurty/multi-docker-server:$GIT_SHA -f ./server/Dockerfile ./server
 
-echo 'push docker images to docker hub
+echo 'push docker images to docker hub'
 docker push karakurty/multi-docker-client:latest
 docker push karakurty/multi-docker-client:$GIT_SHA
 docker push karakurty/multi-docker-worker:latest
