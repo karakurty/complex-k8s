@@ -1,14 +1,19 @@
 sudo: required
 services:
   - docker
+env:
+  global:
+    - GIT_SHA=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in complex-k8s.json.enc -out complex-k8s.json -d
   - curl https://sdk.cloud.google.com > ./install.sh
   - bash ./install.sh --disable-prompts;
   - source $HOME/google-cloud-sdk/path.bash.inc
-  - export CLOUDSDK_CORE_DISABLE_PROMPTS=1
-  ##- gcloud components install kubectl
-  - gcloud --quiet components update
+  - gcloud components list
+  - gcloud components update kubectl
+  - gcloud components update
+  - gcloud components list
   - gcloud auth activate-service-account --key-file complex-k8s.json 
   - gcloud config set project complex-k8s-271814
   - gcloud config set compute/zone europe-west1-c
@@ -22,3 +27,5 @@ script:
 deploy:
   provider: script
   script: bash ./deploy.sh
+  on:
+    branch: master
